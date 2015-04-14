@@ -99,20 +99,22 @@ function mapit(wkt) {
             fill: new ol.style.Fill({
                 color: 'rgba(0, 0, 255, 0.1)'
             })
-        }),
-        new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 5,
-                fill: new ol.style.Fill({
-                    color: 'orange'
-                })
-            }),
-            geometry: function (feature) {
-                // return the coordinates of the first ring of the polygon
-                var coordinates = feature.getGeometry().getCoordinates()[0];
-                return new ol.geom.MultiPoint(coordinates);
-            }
-        })];
+        })
+//        ,
+//        new ol.style.Style({
+//            image: new ol.style.Circle({
+//                radius: 5,
+//                fill: new ol.style.Fill({
+//                    color: 'orange'
+//                })
+//            }),
+//            geometry: function (feature) {
+//                // return the coordinates of the first ring of the polygon
+//                var coordinates = feature.getGeometry().getCoordinates()[0];
+//                return new ol.geom.MultiPoint(coordinates);
+//            }
+ //       })
+    ];
 
     var vector = new ol.layer.Vector({
         source: new ol.source.Vector({
