@@ -22,22 +22,23 @@
 
 var convertedGeometry = null;
 var zemcom = '';
+var map = null;
 
 function parseOLPolygon(polygon) {
     for (var i = 0; i < polygon.getLinearRingCount(); i++) {
         if (i > 0) {
             zemcom += '\n';
-            console.log('contour');
+            //console.log('contour');
         }
         var ring = polygon.getLinearRing(i);
         var coords = ring.getCoordinates();
         for (var k = 0; k < coords.length; k++) {
             var point = coords[k];
-            var x = point[0];
-            var y = point[1];
+            var y = point[0].toFixed(2);
+            var x = point[1].toFixed(2);
             //console.log(point);
             zemcom += x + ' ' + y + '\n';
-            console.log('x = ' + x + ' y = ' + y);
+            //console.log('x = ' + x + ' y = ' + y);
         }
     }
 }
@@ -55,9 +56,9 @@ function convert() {
         // Перевод WKT в CSV-земкома
         mapit(inputdata);
         //$("#data").val(convertedGeometry);
-        console.log(convertedGeometry);
+        //console.log(convertedGeometry);
         if (convertedGeometry instanceof ol.geom.Polygon) {
-            console.log('polygon');
+            //console.log('polygon');
             parseOLPolygon(convertedGeometry);
         }
         else if (convertedGeometry instanceof ol.geom.MultiPolygon) {
@@ -66,7 +67,7 @@ function convert() {
             for (var i = 0; i < contours.length; i++) {
                 if (i > 0) {
                     zemcom += '\n';
-                    console.log('Mcontour');
+                    //console.log('Mcontour');
                 }
                 parseOLPolygon(contours[i]);
             }
@@ -84,6 +85,7 @@ function convert() {
             var cntdata = contour.split('\n');
             for (var j = 0; j < cntdata.length; j++) {
                 var coords = cntdata[j].split(' ');
+                if (coords.length < 2) {continue;}
                 var x = parseFloat(coords[0].replace(',', '.'));
                 var y = parseFloat(coords[1].replace(',', '.'));
                 var wktc = x + ' ' + y;
@@ -146,20 +148,6 @@ function mapit(wkt) {
                 color: 'rgba(0, 0, 255, 0.1)'
             })
         })
-//        ,
-//        new ol.style.Style({
-//            image: new ol.style.Circle({
-//                radius: 5,
-//                fill: new ol.style.Fill({
-//                    color: 'orange'
-//                })
-//            }),
-//            geometry: function (feature) {
-//                // return the coordinates of the first ring of the polygon
-//                var coordinates = feature.getGeometry().getCoordinates()[0];
-//                return new ol.geom.MultiPoint(coordinates);
-//            }
-                //       })
     ];
 
     var vector = new ol.layer.Vector({
@@ -168,14 +156,26 @@ function mapit(wkt) {
         })
         , style: styles
     });
+    
+    if ((map === null) || (map === undefined)) {
+        initMap();
+    }
+    var layers = map.getLayers();
+    for (var i=0; i<layers.getLength(); i++) {
+        map.removeLayer(layers.item(i));
+    }
+    map.addLayer(vector);
+    map.updateSize();
+    map.getView().fitExtent(vector.getSource().getExtent(), map.getSize());
+}
 
-    var map = new ol.Map({
-        layers: [vector],
+function initMap() {
+    map = new ol.Map({
+        //layers: [vector],
         target: 'map',
         view: new ol.View({
             center: [0, 0],
             zoom: 15
         })
     });
-    map.getView().fitExtent(vector.getSource().getExtent(), map.getSize());
 }
