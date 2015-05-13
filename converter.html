@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Конвертер</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="javascript/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="javascript/twitter-bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="zemconverter.css" rel="stylesheet" type="text/css"/>
+        <link href="javascript/ol/ol.css" rel="stylesheet" type="text/css"/>
+        
+        <script src="javascript/jquery/jquery.js" type="text/javascript"></script>
+        <script src="javascript/jqueryui/jquery-ui.js" type="text/javascript"></script>
+        <script src="javascript/bootstrap.js" type="text/javascript"></script>
+        <script src="javascript/ol/ol-debug.js" type="text/javascript"></script>
+        <script src="javascript/app.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <!-- Координаты-->
+            <div class="row-fluid">
+                <div class="well">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Координаты из gisportal или WKT</div>
+                        <div class="panel-body">
+                            <label>Тип геометрии для gisportal</label>
+                            <select class="pg-width" id="gt">
+                                <option>POLYGON</option>
+                                <option>MULTIPOLYGON</option>
+<!--                                <option selected>POLYGON</option>-->
+                            </select>
+                            <button class="btn btn-success"  onclick="convert()">Конвертировать</button>
+                            <div class="panel-body">
+                                <textarea class="coord-area" id="data">вставьте сюда координаты</textarea>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+                    <!-- Карта-->
+            <div class="row-fluid">
+                <div class="well">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Карта</div>
+                        <div class="panel-body">
+                            <div id="map" class="main"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>
